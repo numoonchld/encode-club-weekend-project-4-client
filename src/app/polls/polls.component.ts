@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
+
 import { ServerService } from '../server.service'
 import { GoerliService } from '../goerli.service'
 
@@ -20,9 +21,21 @@ export class PollsComponent implements OnInit {
     }),
   })
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private goerliService: GoerliService,
+    private serverService: ServerService,
+  ) {}
 
   ngOnInit(): void {}
 
-  onSubmit() {}
+  onSubmit() {
+    const { question, options } = this.createPollForm.value
+
+    const proposals = Object.values({ ...options }).filter(
+      (value) => value !== '',
+    )
+
+    console.log({ question, proposals })
+  }
 }

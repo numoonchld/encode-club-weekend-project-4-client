@@ -7,10 +7,10 @@ import { HttpClient } from '@angular/common/http'
 export class ServerService {
   serverRootURL: string = 'http://localhost:3000/'
 
-  constructor(private http: HttpClient) {
-    // create polls
-    // mint tokens
-    // record votes
-    // read ll votes
-  }
+  constructor(private http: HttpClient) {}
+
+  // create polls
+  // mint tokens
+  // record votes
+  // read ll votes
 }

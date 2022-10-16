@@ -5,10 +5,11 @@ import { ethers } from 'ethers'
   providedIn: 'root',
 })
 export class GoerliService {
-  constructor() {
-    // get metamask account/signer/address
-    // delegate
-    // vote
-    // results
-  }
+  constructor() {}
+
+  // get metamask account/signer/address
+
+  // delegate
+  // vote
+  // results
 }

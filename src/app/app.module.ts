@@ -9,6 +9,7 @@ import { DelegationComponent } from './delegation/delegation.component'
 import { VotingComponent } from './voting/voting.component'
 import { HomeComponent } from './home/home.component'
 import { ReactiveFormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -19,7 +20,12 @@ import { ReactiveFormsModule } from '@angular/forms'
     VotingComponent,
     HomeComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

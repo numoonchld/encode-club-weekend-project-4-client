@@ -11,18 +11,16 @@
         (ngSubmit)="onSubmit()"
       >
         <div class="mb-5">
-          <label for="exampleInputEmail1" class="form-label"
-            >Poll Question</label
-          >
+          <label for="pollQuestion" class="form-label">Poll Question</label>
           <input
             type="text"
             class="form-control"
-            id="exampleInputEmail1"
+            id="pollQuestion"
             placeholder="What flavor ice-cream should we get?"
-            aria-describedby="emailHelp"
+            aria-describedby="pollFormHelp"
             formControlName="question"
           />
-          <div id="emailHelp" class="form-text">
+          <div id="pollFormHelp" class="form-text">
             (Enter upto five options below)
           </div>
         </div>
