@@ -10,9 +10,7 @@ declare var window: any
 export class HomeComponent implements OnInit {
   constructor(private goerliService: GoerliService) {}
 
-  ngOnInit(): void {
-    // check wallet connection
-  }
+  ngOnInit(): void {}
 
   // connect to metamask wallet on button click
   connectMetamaskWallet() {

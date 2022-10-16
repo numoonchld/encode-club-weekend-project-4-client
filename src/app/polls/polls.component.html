@@ -4,7 +4,15 @@
     <hr />
 
     <section class="card p-5">
-      <h3 class="mb-5">Create New Poll</h3>
+      <h3 class="">Create New Poll</h3>
+      <button
+        class="btn btn-danger mb-5"
+        [class]="showMetamaskConnectButton ? 'visible' : 'invisible'"
+        (click)="connectMetamaskWallet()"
+      >
+        Connect to Metamask
+      </button>
+
       <form
         class="d-flex flex-column"
         [formGroup]="createPollForm"
