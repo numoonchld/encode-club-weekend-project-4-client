@@ -1,0 +1,6 @@
+{
+  "token-goerli-address": "0xac23614eA08907b5E33C7174a996d560cEb386E7",
+  "token-goerli-block-height": 7755275,
+  "TOKEN_PER_MINT_TIME_PERIOD": "0.0001",
+  "MINTING_COOLING_PERIOD_EPOCH_DELTA": 150
+}

@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="d-flex flex-column my-5">
+    <h1>Polls Dashboard</h1>
+    <hr />
+
+    <section class="card p-5">
+      <h3 class="mb-5">Create New Poll</h3>
+      <form
+        class="d-flex flex-column"
+        [formGroup]="createPollForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="mb-5">
+          <label for="exampleInputEmail1" class="form-label"
+            >Poll Question</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            placeholder="What flavor ice-cream should we get?"
+            aria-describedby="emailHelp"
+            formControlName="question"
+          />
+          <div id="emailHelp" class="form-text">
+            (Enter upto five options below)
+          </div>
+        </div>
+        <div formGroupName="options">
+          <div class="mb-3 w-50">
+            <label for="pollOption1" class="form-label">Option 1:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pollOption1"
+              formControlName="option1"
+              placeholder="butterscotch"
+            />
+          </div>
+          <div class="mb-3 w-50">
+            <label for="pollOption2" class="form-label">Option 2:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pollOption2"
+              formControlName="option2"
+              placeholder="..."
+            />
+          </div>
+          <div class="mb-3 w-50">
+            <label for="pollOption3" class="form-label">Option 3:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pollOption3"
+              formControlName="option3"
+              placeholder="..."
+            />
+          </div>
+          <div class="mb-3 w-50">
+            <label for="pollOption4" class="form-label">Option 4:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pollOption4"
+              formControlName="option4"
+              placeholder="..."
+            />
+          </div>
+          <div class="mb-3 w-50">
+            <label for="pollOption5" class="form-label">Option 5:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pollOption5"
+              formControlName="option5"
+              placeholder="..."
+            />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </section>
+  </div>
+</div>
