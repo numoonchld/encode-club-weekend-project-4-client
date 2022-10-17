@@ -30,7 +30,7 @@ export class TokensComponent implements OnInit {
     this.serverService.getTotalTokenSupply().subscribe((data) => {
       this.tokenTotalSupply = data['result']
     })
-    this.serverService.getTokenGoerliAddress().subscribe(async (data) => {
+    this.serverService.getTokenGoerliAddress().subscribe((data) => {
       this.tokenContractAddress = data['result']
     })
   }
