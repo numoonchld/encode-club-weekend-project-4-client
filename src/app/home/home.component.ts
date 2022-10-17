@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core'
+
 import { GoerliService } from '../goerli.service'
+import { ServerService } from '../server.service'
+
 declare var window: any
 
 @Component({
@@ -8,9 +11,24 @@ declare var window: any
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private goerliService: GoerliService) {}
+  allPolls: any[]
 
-  ngOnInit(): void {}
+  constructor(
+    private goerliService: GoerliService,
+    private serverService: ServerService,
+  ) {
+    this.allPolls = []
+  }
+
+  ngOnInit(): void {
+    this.serverService.getAllPolls().subscribe({
+      next: (polls) => {
+        this.allPolls = polls
+      },
+    })
+    console.log(this.allPolls)
+    // this.allPolls =
+  }
 
   // connect to metamask wallet on button click
   connectMetamaskWallet() {

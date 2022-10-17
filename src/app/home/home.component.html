@@ -6,4 +6,14 @@
   >
     Connect to Metamask
   </button>
+
+  <section class="card p-5 my-5">
+    <h3 class="mb-4">Polls</h3>
+
+    <ul class="list-group">
+      <li *ngFor="let poll of allPolls" class="list-group-item">
+        {{ poll.question }}
+      </li>
+    </ul>
+  </section>
 </div>
