@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 
+import { NgZone } from '@angular/core'
+import { Router } from '@angular/router'
+
 import { ServerService } from '../server.service'
 import { GoerliService } from '../goerli.service'
+
+import {
+  CreateNewPollPayload,
+  Poll,
+} from '../../assets/interfaces/serverService'
 
 declare var window: any
 
@@ -13,6 +21,7 @@ declare var window: any
 })
 export class PollsComponent implements OnInit {
   showMetamaskConnectButton: Boolean
+  latestPollCreated: Poll
   createPollForm = this.fb.group({
     question: [''],
     options: this.fb.group({
@@ -28,9 +37,19 @@ export class PollsComponent implements OnInit {
     private fb: FormBuilder,
     private goerliService: GoerliService,
     private serverService: ServerService,
+    private ngZone: NgZone,
+    private router: Router,
   ) {
     this.showMetamaskConnectButton = !this.goerliService.isLoggedIn
-    console.log(this.showMetamaskConnectButton)
+
+    this.latestPollCreated = {
+      question: '',
+      proposals: [''],
+      creator: '',
+      isDeployed: new Boolean(),
+      deploymentHash: '',
+      deploymentAddress: '',
+    }
   }
 
   refreshButtonDisplay() {
@@ -54,17 +73,30 @@ export class PollsComponent implements OnInit {
     this.refreshButtonDisplay()
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.goerliService.isLoggedIn) {
       const { question, options } = this.createPollForm.value
 
       const proposals = Object.values({ ...options }).filter(
-        (value) => value !== '',
+        (value): Boolean => value !== '',
       )
 
-      console.log({ question, proposals })
+      const creator = this.goerliService.currentAccount
+
+      const newPollRequestBody: Object = {
+        question,
+        proposals,
+        creator,
+      }
+
+      await (
+        await this.serverService.createNewPoll(newPollRequestBody)
+      ).subscribe((poll: { result: Poll }) => console.log(poll.result))
+
+      this.ngZone.run(() => this.router.navigate(['/']))
     } else {
       window.alert('Connect site to MetaMask account to use this page!')
     }
+    return
   }
 }
