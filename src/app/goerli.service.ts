@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core'
+import { ethers } from 'ethers'
+
+import { ServerService } from './server.service'
+
+import * as G11TokenJSON from '../assets/contract-assets/token-contract/G11Token.json'
 
 @Injectable({
   providedIn: 'root',
@@ -6,10 +11,19 @@ import { Injectable } from '@angular/core'
 export class GoerliService {
   currentAccount: string
   isLoggedIn: Boolean
+  tokenContractAddress: string
+  contractJSON: any
+  provider: ethers.providers.BaseProvider
 
-  constructor() {
+  constructor(private serverService: ServerService) {
     this.currentAccount = ''
     this.isLoggedIn = false
+    this.tokenContractAddress = ''
+    this.contractJSON = G11TokenJSON
+    this.provider = ethers.getDefaultProvider('goerli')
+    this.serverService.getTokenGoerliAddress().subscribe((data) => {
+      this.tokenContractAddress = data['result']
+    })
   }
 
   // get metamask account/signer/address
@@ -56,6 +70,26 @@ export class GoerliService {
   }
 
   // delegate
+  async delegateToAddress(address: string, ethereum: any) {
+    // console.log(this.contractJSON.abi)
+
+    const metamaskWalletProvider = new ethers.providers.Web3Provider(ethereum)
+    const metamaskSigner = metamaskWalletProvider.getSigner()
+
+    const tokenContract = new ethers.Contract(
+      this.tokenContractAddress,
+      this.contractJSON.abi,
+      this.provider,
+    )
+
+    const delegationTxn = await tokenContract
+      .connect(metamaskSigner)
+      ['delegate'](address)
+
+    const txnConfirm = await delegationTxn.wait()
+
+    return txnConfirm
+  }
   // vote
   // results
 }
