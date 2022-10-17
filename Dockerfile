@@ -10,4 +10,4 @@ RUN npm ci
 
 EXPOSE 4200
 
-CMD ng serve
+CMD ["ng", "serve"]
