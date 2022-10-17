@@ -29,7 +29,28 @@ export class ServerService {
       .get(`${this.serverRootURL}/polls`)
       .pipe(tap((data) => JSON.stringify(data)))
   }
+
+  // get total supply
+  getTotalTokenSupply(): Observable<any> {
+    return this.http
+      .get(`${this.serverRootURL}/token-total-supply`)
+      .pipe(tap((data) => JSON.stringify(data)))
+  }
+
+  // get token address
+  getTokenGoerliAddress(): Observable<any> {
+    return this.http
+      .get(`${this.serverRootURL}/token-contract-address`)
+      .pipe(tap((data) => JSON.stringify(data)))
+  }
+
+  // get current metamask wallet balance
+
+  // enquire balance of another wallet
+
   // mint tokens
+
   // record votes
+
   // read ll votes
 }

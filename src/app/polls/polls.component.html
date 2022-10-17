@@ -93,11 +93,11 @@
       <ul class="list-group">
         <li
           *ngFor="let poll of undeployedPolls"
-          class="list-group-item d-flex flex-row justify-content-between py-3"
+          class="list-group-item d-flex flex-sm-column flex-xl-row justify-content-between py-3"
         >
           <div class="d-flex flex-column">
             {{ poll.question }}
-            <div class="d-flex gap-2 pt-2 flex-nowrap">
+            <div class="d-flex gap-2 pt-2 flex-wrap">
               <div
                 class="badge text-bg-secondary"
                 *ngFor="let proposal of poll.proposals"
@@ -106,7 +106,9 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-success">Deploy Poll Contract</button>
+          <button class="btn btn-success mt-sm-3 mt-xl-0">
+            Deploy Poll Contract
+          </button>
         </li>
       </ul>
     </section>

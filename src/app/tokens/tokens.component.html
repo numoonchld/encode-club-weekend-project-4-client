@@ -1,1 +1,15 @@
-<p>tokens works!</p>
+<div class="container py-5">
+  <div class="card">
+    <div class="card-header">Total Token Supply</div>
+    <div class="card-body">
+      <p class="card-text fs-1">
+        {{ tokenTotalSupply }}
+      </p>
+      <a
+        href="https://goerli.etherscan.io/address/{{ tokenContractAddress }}"
+        target="_blank"
+        >View Contract On Goerli Etherscan</a
+      >
+    </div>
+  </div>
+</div>

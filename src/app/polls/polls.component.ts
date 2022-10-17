@@ -7,10 +7,7 @@ import { Router } from '@angular/router'
 import { ServerService } from '../server.service'
 import { GoerliService } from '../goerli.service'
 
-import {
-  CreateNewPollPayload,
-  Poll,
-} from '../../assets/interfaces/serverService'
+import { Poll } from '../../assets/interfaces/serverService'
 
 declare var window: any
 
