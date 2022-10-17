@@ -52,6 +52,11 @@ export class ServerService {
   }
 
   // mint tokens
+  async requestVotingTokens(address: string): Promise<Observable<any>> {
+    return this.http.post(`${this.serverRootURL}/request-voting-tokens`, {
+      address,
+    })
+  }
 
   // record votes
 

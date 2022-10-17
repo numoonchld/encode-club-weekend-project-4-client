@@ -43,4 +43,19 @@
       </button>
     </div>
   </div>
+  <div class="card">
+    <div class="card-header">Mint Voting Tokens To Metamask Wallet</div>
+    <div class="card-body d-flex flex-column gap-3 align-items-center">
+      <button
+        type="button"
+        class="btn btn-success w-100"
+        (click)="mintTokensToMetamaskWalletAccount()"
+      >
+        Request Minting Your Tokens
+      </button>
+      <div *ngIf="isMinting === true" class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
 </div>

@@ -14,6 +14,7 @@ export class TokensComponent implements OnInit {
   tokenContractAddress: string
   tokenTotalSupply: string
   metamaskAccountTokenBalance: string
+  isMinting: Boolean
 
   constructor(
     private goerliService: GoerliService,
@@ -22,6 +23,7 @@ export class TokensComponent implements OnInit {
     this.tokenContractAddress = ''
     this.tokenTotalSupply = ''
     this.metamaskAccountTokenBalance = ''
+    this.isMinting = false
   }
 
   ngOnInit(): void {
@@ -43,6 +45,27 @@ export class TokensComponent implements OnInit {
         .subscribe((data) => {
           this.metamaskAccountTokenBalance = data['result']
         })
+    }
+  }
+
+  async mintTokensToMetamaskWalletAccount() {
+    const { ethereum } = window
+    await this.goerliService.checkWalletConnection(ethereum)
+
+    if (this.goerliService.isLoggedIn) {
+      this.isMinting = true
+      const mintRequest = await this.serverService.requestVotingTokens(
+        this.goerliService.currentAccount,
+      )
+      mintRequest.subscribe((data) => {
+        console.log(data.result)
+        this.isMinting = false
+        if (data.result) {
+          window.alert('Minting was successful!')
+        } else {
+          window.alert('Minting failed - try again sometime later!')
+        }
+      })
     }
   }
 }
