@@ -72,6 +72,16 @@ export class ServerService {
   }
 
   // record vote
+  async recordVoteOnServer(createVoteDto: {}): Promise<Observable<any>> {
+    return this.http
+      .post(`${this.serverRootURL}/vote/new-vote`, createVoteDto)
+      .pipe(tap((data) => JSON.stringify(data)))
+  }
 
   // read all votes
+  async getAllVotes(): Promise<Observable<any>> {
+    return this.http
+      .get(`${this.serverRootURL}/vote`)
+      .pipe(tap((data) => JSON.stringify(data)))
+  }
 }

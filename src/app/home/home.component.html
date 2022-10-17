@@ -28,4 +28,26 @@
       (No poll deployment recorded yet - check back later!)
     </div>
   </section>
+
+  <section class="card p-5 my-5">
+    <h3 class="mb-4">Recent Votes</h3>
+
+    <ul class="list-group">
+      <li
+        *ngFor="let vote of recentVotes"
+        class="list-group-item d-flex flex-column"
+      >
+        <span>Question: {{ vote.voteForQuestion }}</span>
+        <br />
+        <span>Selection: {{ vote.selection }}</span>
+        <br />
+        <span>Epoch timestamp: {{ vote.creationEpoch }}</span>
+        <br />
+        <span>By: {{ vote.voterAddress }}</span>
+      </li>
+    </ul>
+    <div *ngIf="recentVotes.length === 0" class="mt-3 fs-6 text-secondary">
+      (No votes recorded yet - check back later!)
+    </div>
+  </section>
 </div>

@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { ServerService } from './server.service'
 
 import * as G11TokenJSON from '../assets/contract-assets/token-contract/G11Token.json'
+import * as TokenizedBallotJSON from '../assets/contract-assets/ballot-contract/TokenizedBallot.json'
 
 @Injectable({
   providedIn: 'root',
@@ -12,14 +13,16 @@ export class GoerliService {
   currentAccount: string
   isLoggedIn: Boolean
   tokenContractAddress: string
-  contractJSON: any
+  tokenContractJSON: any
+  ballotContractJSON: any
   provider: ethers.providers.BaseProvider
 
   constructor(private serverService: ServerService) {
     this.currentAccount = ''
     this.isLoggedIn = false
     this.tokenContractAddress = ''
-    this.contractJSON = G11TokenJSON
+    this.tokenContractJSON = G11TokenJSON
+    this.ballotContractJSON = TokenizedBallotJSON
     this.provider = ethers.getDefaultProvider('goerli')
     this.serverService.getTokenGoerliAddress().subscribe((data) => {
       this.tokenContractAddress = data['result']
@@ -71,14 +74,14 @@ export class GoerliService {
 
   // delegate
   async delegateToAddress(address: string, ethereum: any) {
-    // console.log(this.contractJSON.abi)
+    // console.log(this.tokenContractJSON.abi)
 
     const metamaskWalletProvider = new ethers.providers.Web3Provider(ethereum)
     const metamaskSigner = metamaskWalletProvider.getSigner()
 
     const tokenContract = new ethers.Contract(
       this.tokenContractAddress,
-      this.contractJSON.abi,
+      this.tokenContractJSON.abi,
       this.provider,
     )
 
@@ -90,7 +93,35 @@ export class GoerliService {
 
     return txnConfirm
   }
+
   // vote
+  async votingForPoll(
+    pollContractAddress: string,
+    optionIndex: number,
+    votingTokenFraction: string,
+    ethereum: any,
+  ) {
+    console.log(this.ballotContractJSON.abi)
+
+    const metamaskWalletProvider = new ethers.providers.Web3Provider(ethereum)
+    const metamaskSigner = metamaskWalletProvider.getSigner()
+
+    const ballotContract = new ethers.Contract(
+      pollContractAddress,
+      this.ballotContractJSON.abi,
+      this.provider,
+    )
+
+    const votingTxn = await ballotContract
+      .connect(metamaskSigner)
+      ['vote'](optionIndex, ethers.utils.parseEther(votingTokenFraction), {
+        gasLimit: 1000000,
+      })
+
+    const txnConfirm = await votingTxn.wait()
+
+    return txnConfirm
+  }
 
   // results
 }

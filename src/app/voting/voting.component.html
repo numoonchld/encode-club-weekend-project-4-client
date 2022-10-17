@@ -5,7 +5,14 @@
   </div>
 
   <div class="card">
-    <div class="card-header fs-4">{{ poll.question }}</div>
+    <div class="card-header d-flex flex-column">
+      <span class="fs-4">{{ poll.question }}</span>
+      <a
+        class="align-self-start"
+        href="https://goerli.etherscan.io/address/{{ poll.deploymentAddress }}"
+        >[Etherscan Link]</a
+      >
+    </div>
     <form
       class="card-body d-flex flex-column gap-3"
       [formGroup]="castBallotForm"
@@ -41,7 +48,15 @@
           placeholder="0.00001"
         />
       </div>
-      <button type="submit" class="btn btn-success">Vote</button>
+      <button type="submit" class="btn btn-success" [disabled]="isVoting">
+        <span
+          *ngIf="isVoting"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <span *ngIf="!isVoting">Vote</span>
+      </button>
     </form>
   </div>
 </div>
