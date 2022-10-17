@@ -30,6 +30,9 @@ export class PollsComponent implements OnInit {
       option5: [''],
     }),
   })
+  isPollDeploying: Boolean
+  isNewPollCreating: Boolean
+  currentlyDeployingPollID: string
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +41,10 @@ export class PollsComponent implements OnInit {
     private ngZone: NgZone,
     private router: Router,
   ) {
+    this.isPollDeploying = false
+    this.isNewPollCreating = false
+    this.currentlyDeployingPollID = ''
+
     this.showMetamaskConnectButton = !this.goerliService.isLoggedIn
 
     this.latestPollCreated = {
@@ -77,8 +84,11 @@ export class PollsComponent implements OnInit {
     this.refreshButtonDisplay()
   }
 
+  // new poll form submit
   async onSubmit() {
     if (this.goerliService.isLoggedIn) {
+      this.isNewPollCreating = true
+
       const { question, options } = this.createPollForm.value
 
       const proposals = Object.values({ ...options }).filter(
@@ -95,12 +105,46 @@ export class PollsComponent implements OnInit {
 
       await (
         await this.serverService.createNewPoll(newPollRequestBody)
-      ).subscribe((poll: { result: Poll }) => console.log(poll.result))
+      ).subscribe((poll: { result: Poll }) => {
+        console.log('poll result', poll.result)
 
-      this.ngZone.run(() => this.router.navigate(['/']))
+        if (poll.result) {
+          this.isNewPollCreating = false
+          return
+        }
+
+        window.alert('Poll creation failed!')
+        this.isNewPollCreating = false
+        return
+      })
     } else {
       window.alert('Connect site to MetaMask account to use this page!')
     }
     return
+  }
+
+  async deployPollContract(pollID: string): Promise<void> {
+    this.isPollDeploying = true
+    this.currentlyDeployingPollID = pollID
+
+    const pollContractDeployResponse = await this.serverService.deployPollContract(
+      pollID,
+    )
+
+    pollContractDeployResponse.subscribe((response) => {
+      console.log('poll deploy response: ', response)
+
+      if (response.result) {
+        this.isPollDeploying = false
+        this.currentlyDeployingPollID = ''
+        this.ngZone.run(() => this.router.navigate(['/']))
+        return
+      }
+
+      window.alert('Poll deploy failed!')
+      this.isPollDeploying = false
+      this.currentlyDeployingPollID = ''
+      return
+    })
   }
 }

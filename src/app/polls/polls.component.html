@@ -96,6 +96,8 @@
           class="list-group-item d-flex flex-sm-column flex-xl-row justify-content-between py-3"
         >
           <div class="d-flex flex-column">
+            {{ poll._id }}
+            <br />
             {{ poll.question }}
             <div class="d-flex gap-2 pt-2 flex-wrap">
               <div
@@ -106,7 +108,18 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-success mt-sm-3 mt-xl-0">
+          <button
+            class="btn btn-success mt-sm-3 mt-xl-0 d-flex justify-content-center align-items-center gap-3"
+            (click)="deployPollContract(poll._id)"
+            [disabled]="isPollDeploying"
+            style="min-width: fit-content"
+          >
+            <span
+              *ngIf="isPollDeploying && currentlyDeployingPollID === poll._id"
+              class="spinner-border spinner-border-md"
+              role="status"
+              aria-hidden="true"
+            ></span>
             Deploy Poll Contract
           </button>
         </li>

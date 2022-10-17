@@ -16,7 +16,6 @@ export class ServerService {
   async createNewPoll(
     createNewPollPayload: CreateNewPollPayload | Object,
   ): Promise<Observable<any>> {
-    console.log('post new poll...', createNewPollPayload)
     return this.http.post(
       `${this.serverRootURL}/polls/new-poll`,
       createNewPollPayload,
@@ -28,6 +27,13 @@ export class ServerService {
     return this.http
       .get(`${this.serverRootURL}/polls`)
       .pipe(tap((data) => JSON.stringify(data)))
+  }
+
+  // deploy poll contracts
+  async deployPollContract(pollID: string): Promise<Observable<any>> {
+    return this.http.post(`${this.serverRootURL}/polls/deploy-poll-contract`, {
+      pollID,
+    })
   }
 
   // get total supply
