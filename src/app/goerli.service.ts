@@ -124,4 +124,20 @@ export class GoerliService {
   }
 
   // results
+  async pollLeader(pollContractAddress: string, ethereum: any) {
+    // console.log(this.ballotContractJSON.abi)
+
+    const metamaskWalletProvider = new ethers.providers.Web3Provider(ethereum)
+    const metamaskSigner = metamaskWalletProvider.getSigner()
+
+    const ballotContract = new ethers.Contract(
+      pollContractAddress,
+      this.ballotContractJSON.abi,
+      this.provider,
+    )
+
+    const winnerTxn = await ballotContract.connect(metamaskSigner)['winnerName']
+    console.log(winnerTxn)
+    return winnerTxn
+  }
 }

@@ -18,11 +18,22 @@
         <span class="fs-4 my-3">{{ poll.question }}</span>
 
         <div class="d-flex flex-row align-items-center gap-3">
-          <button class="btn btn-outline-primary">Vote</button>
           <button
-            class="btn btn-outline-secondary"
+            class="btn btn-outline-primary"
             [routerLink]="['/voting', poll._id]"
           >
+            Vote
+          </button>
+          <button
+            class="btn btn-outline-secondary"
+            (click)="getBallotLeader(poll.deploymentAddress)"
+          >
+            <span
+              *ngIf="isFetchingWinner"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
             Leading Proposal
           </button>
         </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-
+import { ethers } from 'ethers'
 import { GoerliService } from '../goerli.service'
 import { ServerService } from '../server.service'
 
@@ -15,6 +15,7 @@ declare var window: any
 export class HomeComponent implements OnInit {
   allDeployedPolls: any[]
   recentVotes: any[]
+  isFetchingWinner: Boolean
 
   constructor(
     private goerliService: GoerliService,
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit {
   ) {
     this.allDeployedPolls = []
     this.recentVotes = []
+    this.isFetchingWinner = false
   }
 
   async ngOnInit(): Promise<void> {
@@ -31,7 +33,6 @@ export class HomeComponent implements OnInit {
 
     await (await this.serverService.getAllVotes()).subscribe(
       (response: { result: [] }) => {
-        console.log(response)
         this.recentVotes = response.result.filter(
           (vote, voteIndex) => voteIndex < 10,
         )
@@ -43,5 +44,22 @@ export class HomeComponent implements OnInit {
   connectMetamaskWallet() {
     const { ethereum } = window
     this.goerliService.connectToWallet(ethereum)
+  }
+
+  // get winning proposal for ballot contract
+  async getBallotLeader(deploymentAddress: string) {
+    this.isFetchingWinner = true
+    const { ethereum } = window
+    const winnerRequest = await this.goerliService.pollLeader(
+      deploymentAddress,
+      ethereum,
+    )
+
+    window.alert(
+      'Winning proposal is:',
+      ethers.utils.formatBytes32String(winnerRequest),
+    )
+
+    this.isFetchingWinner = false
   }
 }
