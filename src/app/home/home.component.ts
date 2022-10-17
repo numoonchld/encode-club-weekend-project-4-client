@@ -13,18 +13,18 @@ declare var window: any
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  allPolls: any[]
+  allDeployedPolls: any[]
 
   constructor(
     private goerliService: GoerliService,
     private serverService: ServerService,
   ) {
-    this.allPolls = []
+    this.allDeployedPolls = []
   }
 
   ngOnInit(): void {
     this.serverService.getAllPolls().subscribe((polls: Poll[]) => {
-      this.allPolls = polls
+      this.allDeployedPolls = polls.filter((poll) => poll.isDeployed === true)
     })
   }
 

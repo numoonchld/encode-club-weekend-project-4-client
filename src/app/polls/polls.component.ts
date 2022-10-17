@@ -22,6 +22,7 @@ declare var window: any
 export class PollsComponent implements OnInit {
   showMetamaskConnectButton: Boolean
   latestPollCreated: Poll
+  undeployedPolls: any[]
   createPollForm = this.fb.group({
     question: [''],
     options: this.fb.group({
@@ -50,6 +51,8 @@ export class PollsComponent implements OnInit {
       deploymentHash: '',
       deploymentAddress: '',
     }
+
+    this.undeployedPolls = []
   }
 
   refreshButtonDisplay() {
@@ -58,12 +61,16 @@ export class PollsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // check wallet connection
-
     if (!this.goerliService.isLoggedIn) {
       const { ethereum } = window
       await this.goerliService.checkWalletConnection(ethereum)
       this.refreshButtonDisplay()
     }
+
+    // load undeployed polls
+    this.serverService.getAllPolls().subscribe((polls: Poll[]) => {
+      this.undeployedPolls = polls.filter((poll) => poll.isDeployed !== true)
+    })
   }
 
   // connect to metamask wallet on button click

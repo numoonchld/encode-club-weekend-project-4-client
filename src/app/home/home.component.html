@@ -8,12 +8,18 @@
   </button>
 
   <section class="card p-5 my-5">
-    <h3 class="mb-4">Polls</h3>
+    <h3 class="mb-4">On-going Polls</h3>
 
     <ul class="list-group">
-      <li *ngFor="let poll of allPolls" class="list-group-item">
+      <li *ngFor="let poll of allDeployedPolls" class="list-group-item">
         {{ poll.question }}
       </li>
     </ul>
+    <div
+      [class.d-block]="allDeployedPolls.length === 0 ? true : false"
+      class="mt-3 fs-6 text-secondary"
+    >
+      (No poll deployment recorded yet - check back later!)
+    </div>
   </section>
 </div>
