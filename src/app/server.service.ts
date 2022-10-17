@@ -22,6 +22,13 @@ export class ServerService {
     )
   }
 
+  // get a single poll
+  getPollByID(pollID: string): Observable<any> {
+    return this.http
+      .get(`${this.serverRootURL}/polls/${pollID}`)
+      .pipe(tap((data) => JSON.stringify(data)))
+  }
+
   // get all polls
   getAllPolls(): Observable<any> {
     return this.http
@@ -64,7 +71,7 @@ export class ServerService {
     })
   }
 
-  // record votes
+  // record vote
 
   // read all votes
 }

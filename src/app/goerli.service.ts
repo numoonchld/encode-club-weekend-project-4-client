@@ -91,5 +91,6 @@ export class GoerliService {
     return txnConfirm
   }
   // vote
+
   // results
 }

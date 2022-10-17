@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 
 import { GoerliService } from '../goerli.service'
-
 import { ServerService } from '../server.service'
+
 import { Poll } from '../../assets/interfaces/serverService'
 
 declare var window: any

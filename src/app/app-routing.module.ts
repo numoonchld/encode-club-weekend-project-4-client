@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'polls', component: PollsComponent },
   { path: 'tokens', component: TokensComponent },
   { path: 'delegation', component: DelegationComponent },
-  { path: 'voting', component: VotingComponent },
+  { path: 'voting/:pollID', component: VotingComponent },
 ]
 
 @NgModule({
