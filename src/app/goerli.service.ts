@@ -101,7 +101,7 @@ export class GoerliService {
     votingTokenFraction: string,
     ethereum: any,
   ) {
-    console.log(this.ballotContractJSON.abi)
+    // console.log(this.ballotContractJSON.abi)
 
     const metamaskWalletProvider = new ethers.providers.Web3Provider(ethereum)
     const metamaskSigner = metamaskWalletProvider.getSigner()
