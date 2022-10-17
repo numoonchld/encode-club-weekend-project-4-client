@@ -54,6 +54,7 @@ export class GoerliService {
     this.isLoggedIn = true
     return this.currentAccount
   }
+
   // delegate
   // vote
   // results

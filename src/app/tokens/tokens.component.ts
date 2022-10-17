@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core'
 import { GoerliService } from '../goerli.service'
 import { ServerService } from '../server.service'
 
+declare var window: any
+
 @Component({
   selector: 'app-tokens',
   templateUrl: './tokens.component.html',
@@ -11,6 +13,7 @@ import { ServerService } from '../server.service'
 export class TokensComponent implements OnInit {
   tokenContractAddress: string
   tokenTotalSupply: string
+  metamaskAccountTokenBalance: string
 
   constructor(
     private goerliService: GoerliService,
@@ -18,6 +21,7 @@ export class TokensComponent implements OnInit {
   ) {
     this.tokenContractAddress = ''
     this.tokenTotalSupply = ''
+    this.metamaskAccountTokenBalance = ''
   }
 
   ngOnInit(): void {
@@ -27,5 +31,18 @@ export class TokensComponent implements OnInit {
     this.serverService.getTokenGoerliAddress().subscribe(async (data) => {
       this.tokenContractAddress = data['result']
     })
+  }
+
+  async getMetamaskWalletAccountBalance() {
+    const { ethereum } = window
+    await this.goerliService.checkWalletConnection(ethereum)
+
+    if (this.goerliService.isLoggedIn) {
+      this.serverService
+        .getAccountTokenBalance(this.goerliService.currentAccount)
+        .subscribe((data) => {
+          this.metamaskAccountTokenBalance = data['result']
+        })
+    }
   }
 }

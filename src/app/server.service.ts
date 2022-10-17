@@ -44,13 +44,16 @@ export class ServerService {
       .pipe(tap((data) => JSON.stringify(data)))
   }
 
-  // get current metamask wallet balance
-
-  // enquire balance of another wallet
+  // enquire token balance of address
+  getAccountTokenBalance(accountAddress: string): Observable<any> {
+    return this.http
+      .get(`${this.serverRootURL}/token-balance/${accountAddress}`)
+      .pipe(tap((data) => JSON.stringify(data)))
+  }
 
   // mint tokens
 
   // record votes
 
-  // read ll votes
+  // read all votes
 }
